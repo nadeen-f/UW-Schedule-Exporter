@@ -1,0 +1,12 @@
+# ignore any txt files (used for testing)
+*.txt 
+
+# ignore files for compilation
+*.o
+*.d
+
+# ignore vscode settings
+.vscode/
+
+# ignore the executable files
+makeSchedule
