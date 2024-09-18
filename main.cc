@@ -49,8 +49,7 @@ vector <Course> createSceduleArray (void) {
         }
     }
 
-    for (int i = 0; i < 3; ++i ) //(schedule.length() > 100) {
-    {
+    while (schedule.length() > 100) {
         Course course = Course(schedule);
         if (course.isValid()) {
             courses.push_back(course);
