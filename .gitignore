@@ -8,5 +8,5 @@
 # ignore vscode settings
 .vscode/
 
-# ignore the executable files
+# ignore the executable file
 makeSchedule
