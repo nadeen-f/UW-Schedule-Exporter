@@ -116,6 +116,9 @@ std::string getBuilding(std::string &schedule) {
 std::string getInstructor(std::string &schedule) {
     std::string instructor = schedule.substr(0, schedule.find('\n'));
     schedule = schedule.substr(instructor.length() + 1, schedule.length());
+    if (instructor.back() == ',') {
+        getInstructor(schedule);
+    }
     return instructor;
 }
 
@@ -133,13 +136,18 @@ std::string getDate(std::string &schedule) {
 //                            Member functions
 // ============================================================================
 
+// returns the course field specified by the field parameter
+// std::string Course::getField(Course::tupleFields field, auto component) {
+//     return std::get<field>(component);
+// }
+
 // returns true if course is valid, and false otherwise. A valid course is one
 //     has scheduled in person components that need to be marked on a calendar
 bool Course::isValid() {
     for (auto component : components) {
-        if (std::get<1>(component) == "ONLN") { // location
+        if (std::get<LOCATION>(component).find("ONLN") != std::string::npos) { // location
             return false;
-        } else if (std::get<0>(component) == "WRK") { // component
+        } else if (std::get<COMPONENT>(component) == "WRK") { // component
             return false;
         }
     }
@@ -153,6 +161,7 @@ Course::Course(std::string &schedule) {
     name = getCourseName(schedule);
     std::cout << code << std::endl;
     std::cout << name << std::endl;
+
     while (moreComponents(schedule)) {
         ++numComponents;
         auto component = std::make_tuple(getComponent(schedule),
@@ -162,7 +171,12 @@ Course::Course(std::string &schedule) {
                                          getInstructor(schedule),
                                          getDate(schedule),
                                          getDate(schedule));
-        components.push_back(component);
+
+        // Test information is incomplete on quest, and will be omitted
+        if (std::get<COMPONENT>(component) != "TST") {
+            components.push_back(component);
+        }
+
         std::cout << std::get<COMPONENT>(component) << std::endl;
         std::cout << std::get<DAYS>(component) << std::endl;
         std::cout << std::get<TIMES>(component) << std::endl;

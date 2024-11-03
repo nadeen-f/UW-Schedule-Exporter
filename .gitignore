@@ -1,6 +1,9 @@
 # ignore any txt files (used for testing)
 *.txt 
 
+# ignore and ics files (output of the program)
+*.ics
+
 # ignore files for compilation
 *.o
 *.d
